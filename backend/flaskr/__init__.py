@@ -46,7 +46,7 @@ Task needed to be convered:
         of the question. 
     8.  Create a GET endpoint to get questions based on category. 
     9.  Create a POST endpoint to get questions to play the quiz. 
-
+    10. Create error handlers for all expected errors including 404 and 422.
 '''
 def create_app(test_config=None):
     
@@ -69,8 +69,7 @@ def create_app(test_config=None):
         return response
 
     '''
-    ENDPOINTS:
-
+    A.- ENDPOINTS:
 
     '''
     ##### 3.- GET ALL AVAILABLE CATEGORIES #####
@@ -102,7 +101,7 @@ def create_app(test_config=None):
         else:
             abort(404)        
 
-    ##### 4.- QUESTIONS #####
+    ##### 4.- GET ALL QUESTIONS #####
     @app.route('/questions')
     def get_questions():
         '''
@@ -231,6 +230,7 @@ def create_app(test_config=None):
         except:
             abort(422)    
 
+    ##### 8.- FILTER QUESTIONS BY CATEGORY #####
     @app.route("/categories/<int:category_id>/questions", methods=["GET"])
     def get_questions_by_category(category_id):
         '''
@@ -282,10 +282,10 @@ def create_app(test_config=None):
         return jsonify({"success": True, "question": question, }), 200
 
     '''
-    ERROR HANDLERS:
-
+    B.- ERROR HANDLERS:
+    
     '''
-
+    ##### 10.- ERROR HANDLERS DEFINITION ##### 
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
