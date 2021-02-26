@@ -199,14 +199,14 @@ def create_app(test_config=None):
             abort(400)
     
     ##### 7.- SEARCH FOR A TERM #####
-    @app.route('/questions/search', methods=['POST'])
+    @app.route("/questions/search", methods=["POST"])
     def search_question():
         '''
         Description: Search in the DB for the searchterm typed by the user and 
         returns all the questions that have the word in it.
         If there's no question including the searchterm provided, a 404 error
         will be send.
-        '''        
+        '''      
         # Get the data from the UI
         search_data = request.get_json()
         search_term = search_data.get("searchTerm")
@@ -224,9 +224,10 @@ def create_app(test_config=None):
                     'total_questions' : len(results),
                     'current_category' : None,
                     }), 200
-            # There's no result
+            # There's no result for searchTerm
             else:
                 abort(404)
+        # Unprocessable error
         except:
             abort(422)    
 
@@ -252,35 +253,39 @@ def create_app(test_config=None):
                     }),200
             else:
                 abort(404)
+        # Unprocessable error
         except:
             abort(422)    
 
-    ##### 8.- PLAY THE GAME - RANDOM QUIZ #####
+    ##### 9.- PLAY THE GAME - RANDOM QUIZ #####
     @app.route("/quizzes", methods=["POST"])
     def get_quizzes():
         '''
-        # # # Description: Get the list of questions filtered by category. 
-        # # # Pagination is abailable. If the category doesn't exists, an error 404
-        # # # will be showed.
+        Description: Get a random question to ask the user depending on the 
+        category (or all categories) and return a succes in JSON format.
         '''  
         data = request.get_json()
         previous_questions = data.get("previous_questions")
         quiz_category = data.get("quiz_category")
         quiz_category_id = int(quiz_category["id"])
 
-        question = Question.query.filter(
-            Question.id.notin_(previous_questions)
-        )
+        # Excl. all the previous questions 
+        questions = Question.query.filter(
+            Question.id.notin_(previous_questions))
 
-        # quiz category id is 0 if all is selected and therefore false
+        # Take the first question from the remaining questions array 
+        # of the corresponding category
         if quiz_category_id:
-            question = question.filter_by(category=quiz_category_id)
-
-        # limit result to only one question
-        question = question.first().format()
-
-        return jsonify({"success": True, "question": question, }), 200
-
+            new_question = (
+                questions.filter_by(category=quiz_category_id).first().format())
+        
+        try:
+            return jsonify({
+                "success": True, 
+                "question": new_question, 
+                }), 200
+        except:
+            abort(422)
     '''
     B.- ERROR HANDLERS:
     
