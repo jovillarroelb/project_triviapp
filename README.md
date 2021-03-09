@@ -92,7 +92,9 @@ flask run
 
 ## Testing your API
 
-This project includes a testing script to check that all the endpoints are running accordingly. From the terminal, execute:
+This project includes a testing script to check the endpoints are running accordingly.
+
+Go to the `backend` directory and from the terminal, execute:
 
 ```
 dropdb trivia_test
@@ -103,6 +105,16 @@ python test_flaskr.py
 
 `Note:` Omit the `dropdb` command the first time you run tests (Because there's no trivia_test DB yet!).
 
+The following tests are included:
+
+- test_get_categories
+- test_get_questions
+- test_delete_question
+- test_create_new_question
+- test_get_searchTerm
+- test_get_questions_by_category
+- test_play_quiz
+
 ## API Reference
 
 ### Getting Started
@@ -112,367 +124,58 @@ python test_flaskr.py
 
 ### Error Handling
 
-Errors are returned as JSON in the following format:<br>
+The errors handled in this projects are:
 
-    {
-        "success": False,
-        "error": 404,
-        "message": "resource not found"
-    }
-
-The API will return three types of errors:
-
-- 400 – bad request
-- 404 – resource not found
-- 422 – unprocessable
+- 400 : bad request
+- 404 : resource not found
+- 422 : unprocessable
 
 ### Endpoints
 
 #### GET /categories
 
-- General: Returns a list categories.
-- Sample: `curl http://127.0.0.1:5000/categories`<br>
-
-        {
-            "categories": {
-                "1": "Science",
-                "2": "Art",
-                "3": "Geography",
-                "4": "History",
-                "5": "Entertainment",
-                "6": "Sports"
-            },
-            "success": true
-        }
+- General:
+  - Returns : a list categories.
 
 #### GET /questions
 
 - General:
-  - Returns a list questions.
   - Results are paginated in groups of 10 (as default).
   - Also returns list of categories and total number of questions.
-- Sample: `curl http://127.0.0.1:5000/questions`<br>
-
-        {
-            "categories": {
-                "1": "Science",
-                "2": "Art",
-                "3": "Geography",
-                "4": "History",
-                "5": "Entertainment",
-                "6": "Sports"
-            },
-            "questions": [
-                {
-                    "answer": "Maya Angelou",
-                    "category": 4,
-                    "difficulty": 2,
-                    "id": 5,
-                    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-                },
-                {
-                    "answer": "Muhammad Ali",
-                    "category": 4,
-                    "difficulty": 1,
-                    "id": 9,
-                    "question": "What boxer's original name is Cassius Clay?"
-                },
-                {
-                    "answer": "Apollo 13",
-                    "category": 5,
-                    "difficulty": 4,
-                    "id": 2,
-                    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-                },
-                {
-                    "answer": "Brazil",
-                    "category": 6,
-                    "difficulty": 3,
-                    "id": 10,
-                    "question": "Which is the only team to play in every soccer World Cup tournament?"
-                },
-                {
-                    "answer": "Uruguay",
-                    "category": 6,
-                    "difficulty": 4,
-                    "id": 11,
-                    "question": "Which country won the first ever soccer World Cup in 1930?"
-                },
-                {
-                    "answer": "George Washington Carver",
-                    "category": 4,
-                    "difficulty": 2,
-                    "id": 12,
-                    "question": "Who invented Peanut Butter?"
-                },
-                {
-                    "answer": "Lake Victoria",
-                    "category": 3,
-                    "difficulty": 2,
-                    "id": 13,
-                    "question": "What is the largest lake in Africa?"
-                },
-                {
-                    "answer": "The Palace of Versailles",
-                    "category": 3,
-                    "difficulty": 3,
-                    "id": 14,
-                    "question": "In which royal palace would you find the Hall of Mirrors?"
-                },
-                {
-                    "answer": "Agra",
-                    "category": 3,
-                    "difficulty": 2,
-                    "id": 15,
-                    "question": "The Taj Mahal is located in which Indian city?"
-                },
-                {
-                    "answer": "Escher",
-                    "category": 2,
-                    "difficulty": 1,
-                    "id": 16,
-                    "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-                }
-            ],
-            "success": true,
-            "total_questions": 18
-        }
+  - Returns : a list questions.
 
 #### DELETE /questions/\<int:id\>
 
 - General:
   - Deletes a question by id using url parameters.
-  - Returns id of deleted question upon success.
-- Sample: `curl http://127.0.0.1:5000/questions/4 -X DELETE`<br>
-
-        {
-            "deleted": 4,
-            "success": true
-        }
+  - Returns : id of deleted question upon success.
 
 #### POST /questions
 
-This endpoint is designed either to create a new question or to return search results.
-
-1. If searchTerm is not included in request:
-
 - General:
   - Creates a new question using JSON request parameters.
-  - Returns JSON object with newly created question, as well as paginated questions.
-- Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{ "question": "Which year was America discovered by Columbus?", "answer": "1492", "difficulty": 1, "category": "4" }'`<br>
+  - Returns : JSON object with newly created question.
 
-        {
-            "created": 23,
-            "question_created": "Which year was America discovered by Columbus?",
-            "questions": [
-                {
-                    "answer": "Maya Angelou",
-                    "category": 4,
-                    "difficulty": 2,
-                    "id": 5,
-                    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
-                },
-                {
-                    "answer": "Muhammad Ali",
-                    "category": 4,
-                    "difficulty": 1,
-                    "id": 9,
-                    "question": "What boxer's original name is Cassius Clay?"
-                },
-                {
-                    "answer": "Apollo 13",
-                    "category": 5,
-                    "difficulty": 4,
-                    "id": 2,
-                    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
-                },
-                {
-                    "answer": "Brazil",
-                    "category": 6,
-                    "difficulty": 3,
-                    "id": 10,
-                    "question": "Which is the only team to play in every soccer World Cup tournament?"
-                },
-                {
-                    "answer": "Uruguay",
-                    "category": 6,
-                    "difficulty": 4,
-                    "id": 11,
-                    "question": "Which country won the first ever soccer World Cup in 1930?"
-                },
-                {
-                    "answer": "George Washington Carver",
-                    "category": 4,
-                    "difficulty": 2,
-                    "id": 12,
-                    "question": "Who invented Peanut Butter?"
-                },
-                {
-                    "answer": "Lake Victoria",
-                    "category": 3,
-                    "difficulty": 2,
-                    "id": 13,
-                    "question": "What is the largest lake in Africa?"
-                },
-                {
-                    "answer": "The Palace of Versailles",
-                    "category": 3,
-                    "difficulty": 3,
-                    "id": 14,
-                    "question": "In which royal palace would you find the Hall of Mirrors?"
-                },
-                {
-                    "answer": "Agra",
-                    "category": 3,
-                    "difficulty": 2,
-                    "id": 15,
-                    "question": "The Taj Mahal is located in which Indian city?"
-                },
-                {
-                    "answer": "Escher",
-                    "category": 2,
-                    "difficulty": 1,
-                    "id": 16,
-                    "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-                }
-            ],
-            "success": true,
-            "total_questions": 19
-        }
-
-2. If searchTerm is included in request:
+#### POST /questions/search
 
 - General:
-  - Searches for questions using search term in JSON request parameters.
-  - Returns JSON object with paginated matching questions.
-- Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm": "which"}'`<br>
-
-        {
-            "questions": [
-                {
-                    "answer": "Brazil",
-                    "category": 6,
-                    "difficulty": 3,
-                    "id": 10,
-                    "question": "Which is the only team to play in every soccer World Cup tournament?"
-                },
-                {
-                    "answer": "Uruguay",
-                    "category": 6,
-                    "difficulty": 4,
-                    "id": 11,
-                    "question": "Which country won the first ever soccer World Cup in 1930?"
-                },
-                {
-                    "answer": "The Palace of Versailles",
-                    "category": 3,
-                    "difficulty": 3,
-                    "id": 14,
-                    "question": "In which royal palace would you find the Hall of Mirrors?"
-                },
-                {
-                    "answer": "Agra",
-                    "category": 3,
-                    "difficulty": 2,
-                    "id": 15,
-                    "question": "The Taj Mahal is located in which Indian city?"
-                },
-                {
-                    "answer": "Escher",
-                    "category": 2,
-                    "difficulty": 1,
-                    "id": 16,
-                    "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-                },
-                {
-                    "answer": "Jackson Pollock",
-                    "category": 2,
-                    "difficulty": 2,
-                    "id": 19,
-                    "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
-                },
-                {
-                    "answer": "Scarab",
-                    "category": 4,
-                    "difficulty": 4,
-                    "id": 23,
-                    "question": "Which dung beetle was worshipped by the ancient Egyptians?"
-                },
-                {
-                    "answer": "Michigan",
-                    "category": 3,
-                    "difficulty": 3,
-                    "id": 173,
-                    "question": "Which US state contains an area known as the Upper Penninsula?"
-                }
-            ],
-            "success": true,
-            "total_questions": 18
-        }
+  - Searches for a term introduced by the user in the "searchTerm" parameter of the JSON format.
+  - Returns : list of questions (paginated) and total number of questions where the search term is satisfied.
 
 #### GET /categories/\<int:id\>/questions
 
 - General:
   - Gets questions by category id using url parameters.
-  - Returns JSON object with paginated matching questions.
-- Sample: `curl http://127.0.0.1:5000/categories/2/questions`<br>
-
-        {
-            "current_category": "Art",
-            "questions": [
-                {
-                    "answer": "Escher",
-                    "category": 2,
-                    "difficulty": 1,
-                    "id": 16,
-                    "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
-                },
-                {
-                    "answer": "Mona Lisa",
-                    "category": 2,
-                    "difficulty": 3,
-                    "id": 17,
-                    "question": "La Giaconda is better known as what?"
-                },
-                {
-                    "answer": "One",
-                    "category": 2,
-                    "difficulty": 4,
-                    "id": 18,
-                    "question": "How many paintings did Van Gogh sell in his lifetime?"
-                }
-                {
-                    "answer": "Jackson Pollock",
-                    "category": 2,
-                    "difficulty": 2,
-                    "id": 19,
-                    "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
-                }
-            ],
-            "success": true,
-            "total_questions": 19
-        }
+  - Returns : JSON object with paginated matching questions.
 
 #### POST /quizzes
 
 - General:
   - Allows users to play the quiz game.
   - Uses JSON request parameters of category and previous questions.
-  - Returns JSON object with random question not among previous questions.
-- Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [20, 21], "quiz_category": {"type": "Science", "id": "1"}}'`<br>
+  - Returns : JSON object with random question not among previous questions.
 
-        {
-            "question": {
-                "answer": "Blood",
-                "category": 1,
-                "difficulty": 4,
-                "id": 22,
-                "question": "Hematology is a branch of medicine involving the study of what?"
-            },
-            "success": true
-        }
+## Author
 
-## Authors and Owners
-
-Adjustments to the following files are authored by Jorge Villarroel Bryndzová: `__init__.py`, `test_flaskr.py`, and `README.md`.<br>
+This project was created by Jorge Villarroel Bryndzová and with the help of the Udacity community, when issues were encountered in the development process.<br>
 The default template for backend and frontend were created by [Udacity](https://www.udacity.com/) and was taken as a kick-off for the oresented project.

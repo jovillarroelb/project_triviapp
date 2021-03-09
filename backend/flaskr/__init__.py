@@ -26,7 +26,7 @@ def paginate_questions(request, selection):
     page_questions = questions[start:end]
 
     return page_questions
-
+    
 '''
 Main App:
 
