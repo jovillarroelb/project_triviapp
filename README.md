@@ -108,13 +108,19 @@ python test_flaskr.py
 The following tests are included:
 
 - test_get_categories
+- test_422_no_categories
 - test_get_questions
-- test_wrong_page_questions
+- test_422_wrong_page_questions
 - test_delete_question
+- test_422_delete_question_doesnt_exist
 - test_create_new_question
+- test_422_duplicate_question
 - test_get_searchTerm
+- test_422_get_searchTerm_not_found
 - test_get_questions_by_category
+- test_422_not_get_questions_by_category
 - test_play_quiz
+- test_422_not_play_quiz
 
 ## API Reference
 

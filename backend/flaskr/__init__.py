@@ -283,14 +283,14 @@ def create_app(test_config=None):
         questions = Question.query.filter(
             Question.id.notin_(previous_questions))
 
-        # Take the first question from the remaining questions array
-        # of the corresponding category
-        if quiz_category_id:
-            new_question = (
-                questions.filter_by(
-                    category=quiz_category_id).first().format())
-
         try:
+            # Take the first question from the remaining questions array
+            # of the corresponding category
+            if quiz_category_id:
+                new_question = (
+                    questions.filter_by(
+                        category=quiz_category_id).first().format())
+
             return jsonify({
                 "success": True,
                 "question": new_question,
