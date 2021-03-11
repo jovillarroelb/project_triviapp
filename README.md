@@ -137,8 +137,19 @@ The errors handled in this projects are:
 - General:
 
   - Returns : a list categories.
-  - Sample: `curl http://127.0.0.1:5000/categories`
-    `"categories": { "1": "Science", "2": "Art", "3": "Geography", "4": "History", "5": "Entertainment", "6": "Sports" }, "success": true `
+  - Sample: `curl http://127.0.0.1:5000/categories`:
+
+  ```
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+    },
+    "success": true
+  ```
 
 #### GET /questions
 
