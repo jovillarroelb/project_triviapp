@@ -266,7 +266,7 @@ The errors handled in this projects are:
 
   - Creates a new question using JSON request parameters.
   - Returns : JSON object with newly created question.
-  - Sample `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{ "question": "What is the capital city of Chile?", "answer": "santiago", "difficulty": 3, "category": "3" }'
+  - Sample `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{ "question": "What is the capital city of Chile?", "answer": "santiago", "difficulty": 3, "category": "3" }'`
 
   ```
   "message": "Question successfully added to the database!",
@@ -287,7 +287,7 @@ The errors handled in this projects are:
 
   - Searches for a term introduced by the user in the "searchTerm" parameter of the JSON format.
   - Returns : list of questions (paginated) and total number of questions where the search term is satisfied.
-  - Sample `curl -X POST -d '{"searchTerm":"chile"}' -H "Content-Type: application/json" http://localhost:5000/questions/search'
+  - Sample `curl -X POST -d '{"searchTerm":"chile"}' -H "Content-Type: application/json" http://localhost:5000/questions/search'`
 
   ```
   "current_category": null,
