@@ -154,40 +154,212 @@ The errors handled in this projects are:
 #### GET /questions
 
 - General:
+
   - Results are paginated in groups of 10 (as default).
   - Also returns list of categories and total number of questions.
   - Returns : a list questions.
+  - Sample: `curl http://127.0.0.1:5000/questions`:
+
+  ```
+  "categories": {
+      "1": "Science",
+      "2": "Art",
+      "3": "Geography",
+      "4": "History",
+      "5": "Entertainment",
+      "6": "Sports"
+    },
+    "questions": [
+      {
+        "answer": "Maya Angelou",
+        "category": 4,
+        "difficulty": 2,
+        "id": 5,
+        "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+      },
+      {
+        "answer": "Muhammad Ali",
+        "category": 4,
+        "difficulty": 1,
+        "id": 9,
+        "question": "What boxer's original name is Cassius Clay?"
+      },
+      {
+        "answer": "Apollo 13",
+        "category": 5,
+        "difficulty": 4,
+        "id": 2,
+        "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+      },
+      {
+        "answer": "Tom Cruise",
+        "category": 5,
+        "difficulty": 4,
+        "id": 4,
+        "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+      },
+      {
+        "answer": "Edward Scissorhands",
+        "category": 5,
+        "difficulty": 3,
+        "id": 6,
+        "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+      },
+      {
+        "answer": "Brazil",
+        "category": 6,
+        "difficulty": 3,
+        "id": 10,
+        "question": "Which is the only team to play in every soccer World Cup tournament?"
+      },
+      {
+        "answer": "Uruguay",
+        "category": 6,
+        "difficulty": 4,
+        "id": 11,
+        "question": "Which country won the first ever soccer World Cup in 1930?"
+      },
+      {
+        "answer": "George Washington Carver",
+        "category": 4,
+        "difficulty": 2,
+        "id": 12,
+        "question": "Who invented Peanut Butter?"
+      },
+      {
+        "answer": "Lake Victoria",
+        "category": 3,
+        "difficulty": 2,
+        "id": 13,
+        "question": "What is the largest lake in Africa?"
+      },
+      {
+        "answer": "The Palace of Versailles",
+        "category": 3,
+        "difficulty": 3,
+        "id": 14,
+        "question": "In which royal palace would you find the Hall of Mirrors?"
+      }
+    ],
+    "success": true,
+    "total_questions": 19
+  }
+  ```
 
 #### DELETE /questions/\<int:id\>
 
 - General:
+
   - Deletes a question by id using url parameters.
   - Returns : id of deleted question upon success.
+  - Sample: `curl -X DELETE http://127.0.0.1:5000/questions/2`:
+
+  ```
+  "id": 2,
+  "message": "Question deleted successfully!",
+  "success": true
+  ```
 
 #### POST /questions
 
 - General:
+
   - Creates a new question using JSON request parameters.
   - Returns : JSON object with newly created question.
+  - Sample `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{ "question": "What is the capital city of Chile?", "answer": "santiago", "difficulty": 3, "category": "3" }'
+
+  ```
+  "message": "Question successfully added to the database!",
+  "question": {
+    "answer": "santiago",
+    "category": 3,
+    "difficulty": 3,
+    "id": 25,
+    "question": "What is the capital city of Chile?"
+  },
+  "success": true
+
+  ```
 
 #### POST /questions/search
 
 - General:
+
   - Searches for a term introduced by the user in the "searchTerm" parameter of the JSON format.
   - Returns : list of questions (paginated) and total number of questions where the search term is satisfied.
+  - Sample `curl -X POST -d '{"searchTerm":"chile"}' -H "Content-Type: application/json" http://localhost:5000/questions/search'
+
+  ```
+  "current_category": null,
+  "questions": [
+    {
+      "answer": "santiago",
+      "category": 3,
+      "difficulty": 3,
+      "id": 25,
+      "question": "What is the capital city of Chile?"
+    }
+  ],
+  "success": true,
+  "total_questions": 1
+  ```
 
 #### GET /categories/\<int:id\>/questions
 
 - General:
+
   - Gets questions by category id using url parameters.
   - Returns : JSON object with paginated matching questions.
+  - Sample: `curl http://127.0.0.1:5000/categories/1/questions`
+
+  ```
+  "current_category": 1,
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Alexander Fleming",
+      "category": 1,
+      "difficulty": 3,
+      "id": 21,
+      "question": "Who discovered penicillin?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 3
+  ```
 
 #### POST /quizzes
 
 - General:
+
   - Allows users to play the quiz game.
   - Uses JSON request parameters of category and previous questions.
   - Returns : JSON object with random question not among previous questions.
+  - Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [19, 20], "quiz_category": {"type": "Geography", "id": "3"}}`
+
+  ```
+  "question": {
+    "answer": "Lake Victoria",
+    "category": 3,
+    "difficulty": 2,
+    "id": 13,
+    "question": "What is the largest lake in Africa?"
+  },
+  "success": true
+  ```
 
 ## Author
 
