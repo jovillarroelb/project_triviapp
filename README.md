@@ -109,6 +109,7 @@ The following tests are included:
 
 - test_get_categories
 - test_get_questions
+- test_wrong_page_questions
 - test_delete_question
 - test_create_new_question
 - test_get_searchTerm

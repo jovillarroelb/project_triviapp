@@ -71,7 +71,15 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertTrue(data['total_questions'])        
+        self.assertTrue(data['total_questions'])
+
+    def test_wrong_page_questions(self):
+        '''Ask for a page wicth questions that doesn't exists'''
+        res = self.client().get('/questions?page=100')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['error'], 422)
 
     def test_delete_question(self):
         '''Delete a question. For testing purposes a new question will be created and the same will be deleted.'''
